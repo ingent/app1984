@@ -1,0 +1,31 @@
+<%= error_messages_for 'email' %>
+
+<!--[form:email]-->
+<p><label for="email_from">From</label><br/>
+<%= text_field 'email', 'from'  %></p>
+
+<p><label for="email_to">To</label><br/>
+<%= text_field 'email', 'to'  %></p>
+
+<p><label for="email_subject">Subject</label><br/>
+<%= text_field 'email', 'subject'  %></p>
+
+<p><label for="email_body">Body</label><br/>
+<%= text_field 'email', 'body'  %></p>
+
+<p><label for="email_attachments">Attachments</label><br/>
+<%= text_field 'email', 'attachments'  %></p>
+
+<p><label for="email_bytes">Bytes</label><br/>
+<%= text_field 'email', 'bytes'  %></p>
+
+<p><label for="email_spam">Spam</label><br/>
+<select id="email_spam" name="email[spam]"><option value="false">False</option><option value="true">True</option></select></p>
+
+<p><label for="email_spam_score">Spam score</label><br/>
+<%= text_field 'email', 'spam_score'  %></p>
+
+<p><label for="email_created_at">Created at</label><br/>
+<%= datetime_select 'email', 'created_at'  %></p>
+<!--[eoform:email]-->
+

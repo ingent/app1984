@@ -1,0 +1,7 @@
+<% for column in Email.content_columns %>
+<p>
+  <b><%= column.human_name %>:</b> <%=h @email.send(column.name) %>
+</p>
+<% end %>
+
+<%= link_to 'Back', :action => 'list' %>

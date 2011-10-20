@@ -1,0 +1,49 @@
+<h1>Listing recent e-mail</h1>
+
+<%= link_to 'Reports', :action=>'report' %>
+
+
+<%= link_to '&laquo;&nbsp; Previous', { :page => @email_pages.current.previous } if @email_pages.current.previous %>
+<%= pagination_links @email_pages, :window_size => 10 %>
+<%= link_to 'Next &nbsp;&raquo;', { :page => @email_pages.current.next } if @email_pages.current.next %>
+
+<hr/>
+
+<% if @email_pages.item_count>0 then%>
+<table class="list" cellspacing="0">
+<tr>
+    <th>From</th>
+    <th>To</th>
+    <th>Subject</th>
+    <th>Body</th>
+    <th>Attachment</th>
+    <th>Size</th>
+    <th>Spam</th>
+    <th>Date</th>
+</tr>
+
+<% i=0; @email = true; for email in @emails; i=i+1 %>
+<tr class="<%= color_zebra(i) %>">
+<td><%=h(truncate(email.from,20)) %></td>
+<td><%=h(truncate(email.to,20)) %></td>
+<td><%=h(truncate(email.subject,15)) %></td>
+<td><%=h(truncate(email.body,15)) %></td>
+<td><%=h(truncate(email.attachments,15)) %></td>
+<td><%= number_to_human_size email.bytes, 2 %></td>
+<td><%= email.spam_score if email.spam %></td>
+<td><%= data_i_hora email.created_at %></td>
+<td>&nbsp;</td>
+<td><%= link_to 'Show', :action => 'show', :id => email %></td>
+</tr>
+<% end -%>
+
+</table>
+
+<hr/>
+<%= link_to '&laquo;&nbsp; Previous', { :page => @email_pages.current.previous } if @email_pages.current.previous %>
+<%= pagination_links @email_pages, :window_size => 10 %>
+<%= link_to 'Next &nbsp;&raquo;', { :page => @email_pages.current.next } if @email_pages.current.next %>
+
+<% else %>
+<h2>No email found</h2>
+<% end %>

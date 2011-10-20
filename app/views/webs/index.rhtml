@@ -1,0 +1,33 @@
+<h1>Latest web accesses</h1>
+
+<%= link_to 'Refresh', :action => 'index' %>
+<%= link_to 'Reports', :action => 'report' %>
+
+
+<%= link_to '&laquo;&nbsp; Previous', { :page => @web_pages.current.previous } if @web_pages.current.previous %>
+<%= pagination_links @web_pages, :window_size => 10 %>
+<%= link_to 'Next &nbsp;&raquo;', { :page => @web_pages.current.next } if @web_pages.current.next %>
+
+<hr/>
+
+<table>
+  <th>Dia</th>
+  <th>IP</th>
+  <th>Domini</th>
+  <th>Primera visita</th>
+  <th>Última visita</th>
+  <th>Bytes</th>
+  <th>Comptador</th>
+
+  <% @webs.each do |web| -%>
+    <tr>
+      <td><%= Time.at(web.dia).strftime("%d %b %Y") %></td>
+      <td><%= web.ip %></td>
+      <td><%= link_to web.domain,"http://"+web.domain %></td>
+      <td><%= web.hora_inici %></td>
+      <td><%= web.hora_fi %></td>
+      <td><%= web.bytes %></td>
+      <td><%= web.contador %></td>
+    </tr>
+  <% end -%>
+</table>

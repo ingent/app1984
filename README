@@ -1,0 +1,35 @@
+== app1984
+
+This is an small Rails 2.1 application to track e-mail and HTTP usage
+in real time.
+
+For e-mail it has to run on the MTA and recive every meesage. For each
+message it stores metadata information in a database.
+
+For http accesses it needs access to the logs of an Squid proxy-cache.
+
+== INSTALL
+
+ - ruby gems
+ - rails
+ - mysql
+ - create database
+ - adduser filter
+
+== POSTFIX configuration
+
+Add to /etc/postfix/master.cf:
+
+app1984  unix  -       n       n       -       -       pipe
+  flags= user=filter argv=/usr/bin/ruby -rubygems /var/www/app1984/script/runner 'IncomingEmailHandler.receive(STDIN.read)'
+
+Add to /etc/postfix/main.cf:
+
+always_bcc=borg@domain.tld
+transport_maps = hash:/etc/postfix/transport
+
+Add to /etc/postfix/transport:
+
+borg@domain.tld    app1984:
+
+Exec postmap /etc/postfix/transport

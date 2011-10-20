@@ -1,0 +1,77 @@
+<h1>e-mail reporting</h1>
+
+<%= link_to 'e-mail list', :action=>'list' %>
+
+<hr/>
+
+<%= error_messages_for 'report' %>
+
+<% form_tag({:action => 'report'}, {:method => :get}) do %>
+
+  <table>
+    <tr>
+      <td class="textline"><label for="order">Sort order:</label></td>
+      <td>
+        <%= select(:report, :order, [["Date","created_at"],["From","from"]]) -%>
+      </td>
+    </tr>
+    <tr>
+      <td class="textline"><label for="from">From:</label></td>
+      <td><%= date_select :report, :from %></td>
+    </tr>
+    <tr>
+      <td class="textline"><label for="to">To:</label></td>
+      <td><%= date_select :report, :to%></td>
+    </tr>
+    <tr>
+      <td class="textline"><label for="filter">Filter "from":</label></td>
+      <td>
+        <%= select(:report, :filter, [["-",""],["@pyb.es","@pyb.es"]]) -%>
+      </td>
+    </tr>
+    <tr>
+      <td class="textline">HTML report ==></td>
+      <td><%= submit_tag "View" %></td>
+    </tr>
+    <tr>
+      <td class="textline">CSV report ==></td>
+      <td><%= submit_tag "Download" %></td>
+    </tr>
+  </table>
+
+
+<% end -%>
+
+<% if @emails then -%>
+<hr/>
+
+<% if @emails.size >0 then -%>
+<h2>Listing <%= @emails.size %> e-mails</h2>
+<table>
+<tr>
+    <th>Date</th>
+    <th>From</th>
+    <th>To</th>
+    <th>Subject</th>
+    <th>Body</th>
+    <th>Attachments</th>
+    <th>Size</th>
+</tr>
+<% i=0; @emails.each do |email| -%>
+<tr>
+<tr class="<%= i=i+1; color_zebra(i) %>">
+<td><%= data_i_hora email.created_at %></td>
+<td><%=h(email.from) %></td>
+<td><%=h(email.to) %></td>
+<td><%=h(email.subject) %></td>
+<td><%=h(truncate(email.body,15)) %></td>
+<td><%=h(truncate(email.attachments,15)) %></td>
+<td><%= number_to_human_size email.bytes, 2 %></td>
+</tr>
+<% end -%>
+</table>
+
+<% else -%>
+<h2>No data found</h2>
+<% end -%>
+<% end -%>

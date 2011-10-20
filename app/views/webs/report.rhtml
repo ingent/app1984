@@ -1,0 +1,75 @@
+<h1>access to websites reporting</h1>
+
+<%= link_to 'Latest web accesses', :action => 'index' %>
+
+<hr/>
+
+<%= error_messages_for 'report' %>
+
+<% form_tag({:action => 'report'}, {:method => :get}) do %>
+
+  <table>
+    <tr>
+      <td class="textline"><label for="order">Sort order:</label></td>
+      <td>
+        <%= select(:report, :order, [["Hora accés","hora_inici"],["IP","ip"],["Domini","domain"],["Bytes transmesos","bytes"],["Contador","contador"]]) -%>
+      </td>
+    </tr>
+    <tr>
+      <td class="textline"><label for="from">From:</label></td>
+      <td><%= date_select :report, :from %></td>
+    </tr>
+    <tr>
+      <td class="textline"><label for="to">To:</label></td>
+      <td><%= date_select :report, :to%></td>
+    </tr>
+    <tr>
+      <td class="textline"><label for="filter">Filter by IP:</label></td>
+      <td>
+        <%= text_field(:report, :filter ) %>
+      </td>
+    </tr>
+    <tr>
+      <td class="textline">HTML report ==></td>
+      <td><%= submit_tag "View" %></td>
+    </tr>
+    <tr>
+      <td class="textline">CSV report ==></td>
+      <td><%= submit_tag "Download" %></td>
+    </tr>
+  </table>
+
+
+<% end -%>
+
+<% if @webs -%>
+<hr/>
+
+<% if @webs.size > 0 -%>
+<h2>Listing <%= @webs.size %> web access</h2>
+<table>
+  <th>Dia</th>
+  <th>IP</th>
+  <th>Domini</th>
+  <th>Primera visita</th>
+  <th>Última visita</th>
+  <th>Bytes</th>
+  <th>Contador</th>
+
+  <% @webs.each do |web| -%>
+    <tr>
+      <td><%= Time.at(web.dia).strftime("%d %b %Y") %></td>
+      <td><%= web.ip %></td>
+      <td><%= link_to web.domain, "http://"+web.domain  %></td>
+      <td><%= web.hora_inici %></td>
+      <td><%= web.hora_fi %></td>
+      <td><%= web.bytes %></td>
+      <td><%= web.contador %></td>
+    </tr>
+  <% end -%>
+</table>
+
+<% else -%>
+<h2>No data found</h2>
+<% end -%>
+<% end -%>
